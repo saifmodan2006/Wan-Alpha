@@ -38,6 +38,8 @@ class SavePNGZIP_and_Preview_RGBA_AnimatedWEBP:
     CATEGORY = "image/animation"
 
     def save_images(self, images_rgb, images_alpha, fps, filename_prefix, lossless, quality, method, num_frames=0, prompt=None, extra_pnginfo=None):
+        if not len(images_rgb) or images_rgb.shape[:3] != images_alpha.shape[:3]:
+            raise ValueError("RGB and alpha inputs must be nonempty and match in frame count and dimensions.")
         method = self.methods.get(method)
         filename_prefix += self.prefix_append
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir, images_rgb[0].shape[1], images_rgb[0].shape[0])
